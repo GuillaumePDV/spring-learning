@@ -28,15 +28,15 @@ public class UserManagerService {
 	public List<User> listUsers() {
 		return (List<User>) userRepository.findAll();
 	}
-	
+
 	public User getUserById(Long id) {
 		return userRepository.findOne(id);
 	}
-	
+
 	public User getUserByLogin(String login) {
 		return userRepository.findByLogin(login);
 	}
-	
+
 	public void deleteUser(User user) {
 		userRepository.delete(user);
 	}
@@ -44,6 +44,7 @@ public class UserManagerService {
 	public User updateUser(User user, String login, String password) {
 		user.setLogin(login);
 		user.setPassword(password);
+		userRepository.save(user);
 		return user;
 	}
 }

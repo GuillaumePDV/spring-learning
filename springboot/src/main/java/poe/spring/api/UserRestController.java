@@ -55,12 +55,27 @@ public class UserRestController {
 		System.out.println("Delete user : " + user);
 		userManagerService.deleteUser(user);
 	}
-	
+
 	@RequestMapping("/delete/id/{id}")
 	public void deleteUserById(@PathVariable(value = "id") Long id) {
 		User user = userManagerService.getUserById(id);
 		System.out.println("Delete user : " + user);
 		userManagerService.deleteUser(user);
 	}
+
+	@PostMapping("/update/id/{id}")
+	public User updateUserById(@PathVariable(value = "id") Long id, @RequestBody User userJSon) {
+		User user = userManagerService.getUserById(id);
+		System.out.println("User before update : " + user);
+		userManagerService.updateUser(user, userJSon.getLogin(), userJSon.getPassword());
+		System.out.println("User after update : " + user);
+		return user;
+	}
+
+	/*
+	 * @PostMapping public User save(@RequestBody User user) { User savedUser =
+	 * userManagerService.signup(user.getLogin(), user.getPassword());
+	 * System.out.println("user id sqsq: " + savedUser); return savedUser; }
+	 */
 
 }
