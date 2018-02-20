@@ -15,13 +15,16 @@ public class UserManagerService {
 	private UserRepository userRepository;
 
 	public User signup(String login, String password) {
-
 		User user = new User();
-		user.setLogin(login);
-		user.setPassword(password);
-
-		userRepository.save(user);
-
+		if (userRepository.findByLogin(login) == null) {
+			user.setLogin(login);
+			user.setPassword(password);
+			userRepository.save(user);
+		} else {
+			System.out.println("================================================================");
+			System.out.println("ERROR SIGN UP: " + user + " already exists");
+			System.out.println("================================================================");
+		}
 		return user;
 	}
 

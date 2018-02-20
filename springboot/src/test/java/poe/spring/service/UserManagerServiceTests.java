@@ -24,22 +24,32 @@ public class UserManagerServiceTests {
 	@Test
 	public void checkUserCreation() {
 
-//		assertThat(userRepository.count()).isEqualTo(0);
-
+		// ----------------------------------------------------------------
+		// Start TI create User
+		// ----------------------------------------------------------------
 		// enregistre un nouvel utilisateur en BDD
-		String login = "jean";
-		User createdUser = userManagerService.signup(login, "secret");
+		String login = "login";
+		String password = "password";
+//		login = "jean";
+//		password = "secret";
+		User createdUser = userManagerService.signup("login", "password");
+		for (int i = 1; i < 5; i++) {
+			userManagerService.signup((login + i), (password + i));
+		}
 
 		assertThat(createdUser).isNotNull();
 		assertThat(createdUser.getId()).isNotNull().isGreaterThan(0);
 
 		// récupération de l'utilisateur en base de données
-		long createdUserId = createdUser.getId();
+		Long createdUserId = createdUser.getId();
 		User user = userRepository.findOne(createdUserId);
 
 		// vérifications
-		assertThat(user).isNotNull();
+		assertThat(user).isNotNull(); 
 		assertThat(user.getLogin()).isEqualTo(login);
+		// ----------------------------------------------------------------
+		// End TI create User
+		// ----------------------------------------------------------------
 	}
 
 }

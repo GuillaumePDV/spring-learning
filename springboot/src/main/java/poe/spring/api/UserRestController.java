@@ -23,8 +23,21 @@ public class UserRestController {
 
 	@PostMapping
 	public User save(@RequestBody User user) {
-		User savedUser = userManagerService.signup(user.getLogin(), user.getPassword());
-		System.out.println("user id sqsq: " + savedUser);
+		User savedUser = new User();
+		if (user.getLogin() != 		null && user.getLogin() != 		"" && 
+			user.getPassword() != 	null && user.getPassword() != 	"") {
+			savedUser = userManagerService.signup(user.getLogin(), user.getPassword());
+			System.out.println("user id sqsq: " + savedUser);
+		} else {
+			System.out.println("================================================================");
+			System.out.println("ERROR SAVE:");
+			System.out.println("================================================================");
+			if(user.getLogin() == null) {System.out.println("login == null");}
+			if(user.getLogin() == "") {System.out.println("Login() == \"\"");}
+			if(user.getPassword() == null) {System.out.println("");}
+			if(user.getPassword() == "") {System.out.println("");}
+			System.out.println("================================================================");
+		}
 		return savedUser;
 	}
 
@@ -71,11 +84,5 @@ public class UserRestController {
 		System.out.println("User after update : " + user);
 		return user;
 	}
-
-	/*
-	 * @PostMapping public User save(@RequestBody User user) { User savedUser =
-	 * userManagerService.signup(user.getLogin(), user.getPassword());
-	 * System.out.println("user id sqsq: " + savedUser); return savedUser; }
-	 */
 
 }
