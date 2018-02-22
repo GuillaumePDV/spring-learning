@@ -30,26 +30,29 @@ public class UserManagerServiceTests {
 		// enregistre un nouvel utilisateur en BDD
 		String login = "login";
 		String password = "password";
-//		login = "jean";
-//		password = "secret";
-		User createdUser = userManagerService.signup("login", "password");
-		for (int i = 1; i < 5; i++) {
-			userManagerService.signup((login + i), (password + i));
-		}
-
-		assertThat(createdUser).isNotNull();
-		assertThat(createdUser.getId()).isNotNull().isGreaterThan(0);
-
-		// récupération de l'utilisateur en base de données
-		Long createdUserId = createdUser.getId();
-		User user = userRepository.findOne(createdUserId);
-
-		// vérifications
-		assertThat(user).isNotNull(); 
-		assertThat(user.getLogin()).isEqualTo(login);
+		// login = "jean";
+		// password = "secret";
+//		User createdUser = userManagerService.signup("login", "password");
+//
+//		assertThat(createdUser).isNotNull();
+//		assertThat(createdUser.getId()).isNotNull().isGreaterThan(0);
+//
+//		// récupération de l'utilisateur en base de données
+//		Long createdUserId = createdUser.getId();
+//		User user = userRepository.findOne(createdUserId);
+//
+//		// vérifications
+//		assertThat(user).isNotNull();
+//		assertThat(user.getLogin()).isEqualTo(login);
 		// ----------------------------------------------------------------
 		// End TI create User
 		// ----------------------------------------------------------------
+		// ----------------------------------------------------------------
+		// Start TI create 10 Users
+		// ----------------------------------------------------------------
+		// End TI create 10 Users
+		// ----------------------------------------------------------------
+
 	}
 
 }

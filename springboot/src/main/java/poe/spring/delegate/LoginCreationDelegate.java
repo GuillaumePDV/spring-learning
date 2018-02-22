@@ -2,24 +2,24 @@ package poe.spring.delegate;
 
 public class LoginCreationDelegate {
 
-	public Boolean testStringLength(String s) {
-		Boolean bool;
-		if (s.length() >= 4 && s.length() <= 10) {
-			bool = true;
-		} else {
-			bool = false;
-		}
-		return bool;
+	public static final int MIN_LOGIN_LENGTH = 4;
+	public static final int MAX_LOGIN_LENGTH = 10;
+	public static final String[] FORBIDDEN_LOGIN = { "toto", "tata", "titi" };
+
+	public static Boolean isSizeValid(String login) {
+		Boolean isValid;
+		isValid = login.length() >= MIN_LOGIN_LENGTH && login.length() <= MAX_LOGIN_LENGTH;
+		return isValid;
 	}
 
-	public Boolean testForbiddenString(String s) {
-		Boolean bool;
-		if (s.equals("") || s.equals("toto") || s.equals("titi") || s.equals("tata")) {
-			bool = false;
-		} else {
-			bool = true;
+	public static Boolean testForbiddenString(String login) {
+		Boolean isAuthorized = true;
+		for (int i = 0; (i < FORBIDDEN_LOGIN.length) && isAuthorized; i++) {
+			if (FORBIDDEN_LOGIN[i].equals(login)) {
+				isAuthorized = false;
+			}
 		}
-		return bool;
+		return isAuthorized;
 	}
 
 }

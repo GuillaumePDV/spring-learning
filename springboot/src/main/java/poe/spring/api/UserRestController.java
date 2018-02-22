@@ -2,6 +2,8 @@ package poe.spring.api;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import poe.spring.delegate.LoginCreationDelegate;
 import poe.spring.domain.User;
+import poe.spring.exception.DuplicateLoginBusinessException;
 import poe.spring.repository.UserRepository;
 import poe.spring.service.UserManagerService;
 
@@ -21,25 +25,40 @@ public class UserRestController {
 	@Autowired
 	UserManagerService userManagerService;
 
+//	@PostMapping
+//	public User save(@RequestBody User user) {
+//		User savedUser = new User();
+//		if (LoginCreationDelegate.isSizeValid(user.getLogin()) &&
+//				LoginCreationDelegate.testForbiddenString(user.getLogin()) &&	
+//				user.getLogin() != 		null && 
+//				user.getLogin() != 		"" &&
+//				user.getPassword() != 	null &&
+//				user.getPassword() != 	"") {
+//			savedUser = userManagerService.signup(user.getLogin(), user.getPassword());
+//			System.out.println("user id sqsq: " + savedUser);
+//		} else {
+//			System.out.println("================================================================");
+//			System.out.println("ERROR SAVE:");
+//			System.out.println("================================================================");
+//			if(user.getLogin() == null) {System.out.println("login == null");}
+//			if(user.getLogin() == "") {System.out.println("Login == \"\"");}
+//			if(user.getPassword() == null) {System.out.println("Password == null");}
+//			if(user.getPassword() == "") {System.out.println("Password == \"\"");}
+//			System.out.println("================================================================");
+//		}
+//		return savedUser;
+//	}
 	@PostMapping
-	public User save(@RequestBody User user) {
-		User savedUser = new User();
-		if (user.getLogin() != 		null && user.getLogin() != 		"" && 
-			user.getPassword() != 	null && user.getPassword() != 	"") {
-			savedUser = userManagerService.signup(user.getLogin(), user.getPassword());
-			System.out.println("user id sqsq: " + savedUser);
-		} else {
-			System.out.println("================================================================");
-			System.out.println("ERROR SAVE:");
-			System.out.println("================================================================");
-			if(user.getLogin() == null) {System.out.println("login == null");}
-			if(user.getLogin() == "") {System.out.println("Login() == \"\"");}
-			if(user.getPassword() == null) {System.out.println("");}
-			if(user.getPassword() == "") {System.out.println("");}
-			System.out.println("================================================================");
-		}
-		return savedUser;
-	}
+    public User save(@RequestBody User user, HttpServletResponse response) {
+        User savedUser = null;
+        try {
+            savedUser = userManagerService.signup(user.getLogin(), user.getPassword());
+        } catch (DuplicateLoginBusinessException e) {
+            response.setStatus(HttpServletResponse.SC_CONFLICT);
+        }
+        System.out.println("user id : " + savedUser);
+        return savedUser;
+    }
 
 	@GetMapping
 	public List<User> listUsers() {
